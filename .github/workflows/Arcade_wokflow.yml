@@ -203,10 +203,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git clone https://x-access-token:${GITHUB_TOKEN}@github.com/EpitechPromo2027/B-OOP-400-RUN-4-1-arcade-etienne.techer.wiki.git
+          git clone https://x-access-token:${GITHUB_TOKEN}@github.com/PAGY0Z/Arcade-Epitech.wiki.git
 
       - name: Copy Documentation to Wiki
-        run: cp -r docs/* B-OOP-400-RUN-4-1-arcade-etienne.techer.wiki/
+        run: cp -r docs/* Arcade-Epitech.wiki/
 
       - name: Set up Git Credentials
         env:
@@ -217,7 +217,7 @@ jobs:
 
       - name: Commit Documentation
         run: |
-          cd B-OOP-400-RUN-4-1-arcade-etienne.techer.wiki
+          cd Arcade-Epitech.wiki.git
           date "+%Y-%m-%d %H:%M:%S" > last_update
           git add .
           git commit -m "Update documentation"
