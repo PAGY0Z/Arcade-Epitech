@@ -217,7 +217,7 @@ jobs:
 
       - name: Commit Documentation
         run: |
-          cd Arcade-Epitech.wiki.git
+          cd Arcade-Epitech.wiki/
           date "+%Y-%m-%d %H:%M:%S" > last_update
           git add .
           git commit -m "Update documentation"
