@@ -14,7 +14,7 @@ var hierarchy =
     [ "arcade::DLManager< LibraryType >", "de/d85/classarcade_1_1DLManager.html", null ],
     [ "arcade::DLManager< arcade::IDisplayModule >", "de/d85/classarcade_1_1DLManager.html", null ],
     [ "arcade::DLManager< arcade::IGameModule >", "de/d85/classarcade_1_1DLManager.html", null ],
-    [ "exception", null, [
+    [ "std::exception", null, [
       [ "arcade::AException", "df/da4/classarcade_1_1AException.html", [
         [ "arcade::AGameException", "d6/d6b/classarcade_1_1AGameException.html", [
           [ "arcade::GameMenuException", "dd/d83/classarcade_1_1GameMenuException.html", null ],
