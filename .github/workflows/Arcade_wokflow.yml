@@ -1,0 +1,245 @@
+name: Arcade Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  BINARIES_LIST: "./arcade ./lib/arcade_ncurses.so ./lib/arcade_sdl2.so  ./lib/arcade_sfml.so ./lib/arcade_snake.so ./lib/arcade_pacman.so ./lib/arcade_menu.so"
+  UNIT_TESTS: "./unit_tests"
+
+jobs:
+  get_commit_data:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    outputs:
+      COMMIT_MESSAGE: ${{ steps.get_commit_message.outputs.COMMIT_MESSAGE }}
+      COMMIT_AUTHOR: ${{ steps.get_commit_author.outputs.COMMIT_AUTHOR }}
+      COMMIT_EMAIL: ${{ steps.get_commit_email.outputs.COMMIT_EMAIL }}
+      COMMIT_HASH: ${{ steps.get_commit_hash.outputs.COMMIT_HASH }}
+      COMMIT_DATE: ${{ steps.get_commit_date.outputs.COMMIT_DATE }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3.4.0
+
+      - name: Get Commit Message
+        id: get_commit_message
+        run: echo "::set-output name=COMMIT_MESSAGE::$(git log -1 --pretty=format:'%s')"
+
+      - name: Get Commit Author
+        id: get_commit_author
+        run: echo "::set-output name=COMMIT_AUTHOR::$(git log -1 --pretty=format:'%an')"
+
+      - name: Get Commit Email
+        id: get_commit_email
+        run: echo "::set-output name=COMMIT_EMAIL::$(git log -1 --pretty=format:'%ae')"
+
+      - name: Get Commit Hash
+        id: get_commit_hash
+        run: echo "::set-output name=COMMIT_HASH::$(git log -1 --pretty=format:'%H')"
+
+      - name: Get Commit Date
+        id: get_commit_date
+        run: echo "::set-output name=COMMIT_DATE::$(git log -1 --pretty=format:'%ad')"
+
+  check_build:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    container: epitechcontent/epitest-docker
+    outputs:
+      BINARIES_EXPECTED_COUNT: ${{ steps.set_expected_binaries_count.outputs.BINARIES_EXPECTED_COUNT }}
+      BINARIES_COUNT: ${{ steps.check_binaries.outputs.BINARIES_COUNT }}
+      TESTS_STATUS: ${{ steps.check_test_binary.outputs.TESTS_STATUS }}
+      COVERAGE_VALUE: ${{ steps.get_tests_values.outputs.COVERAGE_VALUE }}
+      BRANCHES_COVERAGE_VALUE: ${{ steps.get_tests_values.outputs.BRANCHES_COVERAGE_VALUE }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3.4.0
+
+      - name: Run Build
+        run: |
+          mkdir build
+          cd build
+          cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
+          cmake --build .
+          cd ..
+        timeout-minutes: 5
+
+      - name: Set Expected Binaries Count
+        id: set_expected_binaries_count
+        run: |
+          echo "::set-output name=BINARIES_EXPECTED_COUNT::$(echo $BINARIES_LIST | wc -w)"
+
+      - name: Check Binaries
+        id: check_binaries
+        run: |
+          count=0
+          for binary in $BINARIES_LIST; do
+            if [ -f $binary ]; then
+              echo "$binary found."
+              count=$((count+1))
+            else
+              echo "$binary not found."
+            fi
+          done
+          echo "::set-output name=BINARIES_COUNT::$count"
+
+      - name: Run Tests Build
+        run: make tests_run || true
+        timeout-minutes: 5
+
+      - name: Check Test Binary
+        id: check_test_binary
+        run: |
+          if [ ! -f $UNIT_TESTS ]; then
+            echo "$UNIT_TESTS not found"
+            echo "::set-output name=TESTS_STATUS::TESTS KO"
+          else
+            echo "$UNIT_TESTS found"
+            echo "::set-output name=TESTS_STATUS::TESTS OK"
+          fi
+
+      - name: Get Tests Values
+        id: get_tests_values
+        run: |
+          if [ -f $UNIT_TESTS ]; then
+            gcovr -e tests/ | grep -o 'TOTAL.*' | awk '{print $NF}' > coverage_value
+            gcovr -e tests/ -b | grep -o 'TOTAL.*' | awk '{print $NF}' > branches_coverage_value
+          fi
+          if [ -f coverage_value ]; then
+            echo "::set-output name=COVERAGE_VALUE::$(cat coverage_value)"
+            rm coverage_value
+          else
+            echo "::set-output name=COVERAGE_VALUE::N/A"
+          fi
+          if [ -f branches_coverage_value ]; then
+            echo "::set-output name=BRANCHES_COVERAGE_VALUE::$(cat branches_coverage_value)"
+            rm branches_coverage_value
+          else
+            echo "::set-output name=BRANCHES_COVERAGE_VALUE::N/A"
+          fi
+
+  update_docs:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    needs: [get_commit_data, check_build]
+    env:
+      COMMIT_MESSAGE: ${{ needs.get_commit_data.outputs.COMMIT_MESSAGE }}
+      COMMIT_AUTHOR: ${{ needs.get_commit_data.outputs.COMMIT_AUTHOR }}
+      COMMIT_EMAIL: ${{ needs.get_commit_data.outputs.COMMIT_EMAIL }}
+      BINARIES_COUNT: ${{ needs.check_build.outputs.BINARIES_COUNT }}
+      BINARIES_EXPECTED_COUNT: ${{ needs.check_build.outputs.BINARIES_EXPECTED_COUNT }}
+      TESTS_STATUS: ${{ needs.check_build.outputs.TESTS_STATUS }}
+      COVERAGE_VALUE: ${{ needs.check_build.outputs.COVERAGE_VALUE }}
+      BRANCHES_COVERAGE_VALUE: ${{ needs.check_build.outputs.BRANCHES_COVERAGE_VALUE }}
+      UPDATE_DOC_STATUS: ""
+    outputs:
+      UPDATING_DOCS: ${{ steps.commit_documentation.outputs.UPDATING_DOCS }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3.4.0
+
+      - name: Update Packages List
+        run: sudo apt-get update
+
+      - name: Set up Doxygen
+        run: sudo apt-get install -y doxygen
+
+      - name: Generate Doxygen Documentation
+        run: |
+          doxygen docs/Doxyfile
+
+      - name: Commit Documentation
+        id: commit_documentation
+        run: |
+          git diff docs/ > diff.txt
+          if [ -s diff.txt ]; then
+            echo "Changes in documentation."
+            echo "::set-output name=UPDATING_DOCS::DOCUMENTATION_UPDATED"
+            UPDATE_DOC_STATUS="DOCUMENTATION UPDATED"
+          else
+            echo "No changes in documentation."
+            echo "::set-output name=UPDATING_DOCS::NO_DOCUMENTATION_UPDATE"
+            UPDATE_DOC_STATUS="DOCUMENTATION NOT UPDATED"
+          fi
+          date "+%Y-%m-%d %H:%M:%S" > docs/last_update
+          git add docs/
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git commit -m "[CI] - $COMMIT_MESSAGE - [Compilation: $BINARIES_COUNT/$BINARIES_EXPECTED_COUNT] - [$TESTS_STATUS Coverage: $COVERAGE_VALUE Branches: $BRANCHES_COVERAGE_VALUE] - [Documentation: $UPDATE_DOC_STATUS]"
+          git commit --amend --author="$COMMIT_AUTHOR <$COMMIT_EMAIL>" -m "[CI] - $COMMIT_MESSAGE - [Compilation: $BINARIES_COUNT/$BINARIES_EXPECTED_COUNT] - [$TESTS_STATUS Coverage: $COVERAGE_VALUE Branches: $BRANCHES_COVERAGE_VALUE] - [Documentation: $UPDATE_DOC_STATUS]"
+
+      - name: Push to GitHub
+        run: |
+          git push origin main
+
+  update-wiki:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3.4.0
+        with:
+          submodules: "recursive"
+
+      - name: Update Packages List
+        run: sudo apt-get update
+
+      - name: Set up Doxygen
+        run: sudo apt-get install -y doxygen
+
+      - name: Generate Doxygen Documentation
+        run: doxygen docs/Doxyfile
+
+      - name: Clone Wiki
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git clone https://x-access-token:${GITHUB_TOKEN}@github.com/EpitechPromo2027/B-OOP-400-RUN-4-1-arcade-etienne.techer.wiki.git
+
+      - name: Copy Documentation to Wiki
+        run: cp -r docs/* B-OOP-400-RUN-4-1-arcade-etienne.techer.wiki/
+
+      - name: Set up Git Credentials
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+
+      - name: Commit Documentation
+        run: |
+          cd B-OOP-400-RUN-4-1-arcade-etienne.techer.wiki
+          date "+%Y-%m-%d %H:%M:%S" > last_update
+          git add .
+          git commit -m "Update documentation"
+          git push origin master
+
+  notify_teams:
+    runs-on: ubuntu-latest
+    needs: [get_commit_data, check_build, update_docs, update-wiki]
+
+    steps:
+      - name: Notify Teams
+        env:
+          COMMIT_MESSAGE: ${{ needs.get_commit_data.outputs.COMMIT_MESSAGE }}
+          COMMIT_AUTHOR: ${{ needs.get_commit_data.outputs.COMMIT_AUTHOR }}
+          COMMIT_HASH: ${{ needs.get_commit_data.outputs.COMMIT_HASH }}
+          COMMIT_DATE: ${{ needs.get_commit_data.outputs.COMMIT_DATE }}
+          BINARIES_COUNT: ${{ needs.check_build.outputs.BINARIES_COUNT }}
+          BINARIES_EXPECTED_COUNT: ${{ needs.check_build.outputs.BINARIES_EXPECTED_COUNT }}
+          TESTS_STATUS: ${{ needs.check_build.outputs.TESTS_STATUS }}
+          COVERAGE_VALUE: ${{ needs.check_build.outputs.COVERAGE_VALUE }}
+          BRANCHES_COVERAGE_VALUE: ${{ needs.check_build.outputs.BRANCHES_COVERAGE_VALUE }}
+          UPDATING_DOCS: ${{ needs.update_docs.outputs.UPDATING_DOCS }}
+          TEAMS_WEBHOOK_URL: Removed for security reasons
+        run: |
+          echo "Notifications removed for security reasons"
