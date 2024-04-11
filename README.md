@@ -1,3 +1,30 @@
+|          Test         | Pourcentage | Succès/Nombre de Tests |
+|:-------------------------:|:----------:|:---------------:|
+|        Preliminaries        |    100 %   |      2 / 2      |
+|        Dynamic Linking Library encapsulation        |    100 %   |      1 / 1      |
+|        Dynamic library change        |    100 %   |      1 / 1      |
+|        Games interface genericity        |    100 %   |      0.5 / 0.5      |
+|        Game interface independency        |    100 %   |      0.5 / 0.5      |
+|        Graphic interface genericity        |    100 %   |      0.5 / 0.5      |
+|        Graphic interface independency        |    100 %   |      0.5 / 0.5      |
+|        Pure virtual interfaces        |    100 %   |      0.5 / 0.5      |
+|        Libraries list        |    100 %   |      0.5 / 0.5      |
+|        Menu library        |    100 %   |      0.5 / 0.5      |
+|        Scores        |    100 %   |      0.5 / 0.5      |
+|        Player name        |    50 %   |      0.25 / 0.5      |
+|        Game loop        |    50 %   |      0.25 / 0.5      |
+|        nCurses (arcade_ncurses.so)        |    50 %   |      0.75 / 1.5      |
+|        SDL2 (arcade_sdl2.so)        |    83.3 %   |      1.25 / 1.5      |
+|        Third library        |    83.3 %   |      1.25 / 1.5      |
+|        Game #1        |    60 %   |      0.9 / 1.5      |
+|        Game #2        |    40 %   |      0.6 / 1.5      |
+|        Collaboration        |    100 %   |      1 / 1      |
+|        Documentation        |    100 %   |      0.5 / 0.5      |
+|        Exception        |    100 %   |      1 / 1      |
+|        Template        |    50 %   |      0.5 / 1      |
+|        Memory management        |    0 %   |      0 / 1      |
+|        **Résultats**        | **77.38 %** |     **16.25 / 21**     |
+
 # Arcade Project by Onestla & Le Pacman, Le Snake Et Le Centipède
 
 Welcome to our Arcade project, a collaborative creation by two enthusiastic groups from Epitech, designed for the Object Oriented Programming module. This project brings classic games like Pacman, Snake, and others to life, wrapped in a modern and flexible architecture that allows easy swapping between games and graphical libraries.
