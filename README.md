@@ -25,6 +25,9 @@
 |        Memory management        |    0 %   |      0 / 1      |
 |        **Résultats**        | **77.38 %** |     **16.25 / 21**     |
 
+[![Arcade Workflow](https://github.com/PAGY0Z/Arcade-Epitech/actions/workflows/Arcade_wokflow.yml/badge.svg)](https://github.com/PAGY0Z/Arcade-Epitech/actions/workflows/Arcade_wokflow.yml)
+[![pages-build-deployment](https://github.com/PAGY0Z/Arcade-Epitech/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/PAGY0Z/Arcade-Epitech/actions/workflows/pages/pages-build-deployment)
+
 # Arcade Project by Onestla & Le Pacman, Le Snake Et Le Centipède
 
 Welcome to our Arcade project, a collaborative creation by two enthusiastic groups from Epitech, designed for the Object Oriented Programming module. This project brings classic games like Pacman, Snake, and others to life, wrapped in a modern and flexible architecture that allows easy swapping between games and graphical libraries.
