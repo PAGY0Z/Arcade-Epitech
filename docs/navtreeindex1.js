@@ -1,6 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"d9/d7d/Ghost_8cpp_source.html":[3,0,1,1,0,1,1],
 "da/d03/AGame_8hpp.html":[3,0,1,0,0,3],
 "da/d03/AGame_8hpp_source.html":[3,0,1,0,0,3],
 "da/d3d/classarcade_1_1Pacgum.html":[2,0,0,19],
@@ -249,5 +248,6 @@ var NAVTREEINDEX1 =
 "dir_97aefd0d527b934f1d99a682da8fe6a9.html":[3,0,1],
 "dir_9a35864cd4143d39979746a232e7d8d7.html":[3,0,0,0],
 "dir_9d02b555d18135a2ddcd812934fa3271.html":[3,0,1,1,1,1],
-"dir_a065c5f60305fee3569f887679366939.html":[3,0,1,1]
+"dir_a065c5f60305fee3569f887679366939.html":[3,0,1,1],
+"dir_b61163fcfc1c7557713cfec58882c9a3.html":[3,0,1,1,1,2]
 };
