@@ -1,3 +1,7 @@
+# Arcade Project by Onestla & Le Pacman, Le Snake Et Le Centipède
+
+Welcome to our Arcade project, a collaborative creation by two enthusiastic groups from Epitech, designed for the Object Oriented Programming module. This project brings classic games like Pacman, Snake, and others to life, wrapped in a modern and flexible architecture that allows easy swapping between games and graphical libraries.
+
 |          Test         | Pourcentage | Succès/Nombre de Tests |
 |:-------------------------:|:----------:|:---------------:|
 |        Preliminaries        |    100 %   |      2 / 2      |
@@ -27,10 +31,6 @@
 
 [![Arcade Workflow](https://github.com/PAGY0Z/Arcade-Epitech/actions/workflows/Arcade_wokflow.yml/badge.svg)](https://github.com/PAGY0Z/Arcade-Epitech/actions/workflows/Arcade_wokflow.yml)
 [![pages-build-deployment](https://github.com/PAGY0Z/Arcade-Epitech/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/PAGY0Z/Arcade-Epitech/actions/workflows/pages/pages-build-deployment)
-
-# Arcade Project by Onestla & Le Pacman, Le Snake Et Le Centipède
-
-Welcome to our Arcade project, a collaborative creation by two enthusiastic groups from Epitech, designed for the Object Oriented Programming module. This project brings classic games like Pacman, Snake, and others to life, wrapped in a modern and flexible architecture that allows easy swapping between games and graphical libraries.
 
 ## Team Members
 
