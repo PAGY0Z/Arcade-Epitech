@@ -25,18 +25,20 @@
 var NAVTREE =
 [
   [ "Arcade Epitech Project 2024 - 2025", "index.html", [
-    [ "Arcade Project by Onestla & Le Pacman, Le Snake Et Le Centipède", "d0/d30/md_README.html", [
-      [ "Team Members", "d0/d30/md_README.html#autotoc_md1", null ],
-      [ "How to Play", "d0/d30/md_README.html#autotoc_md2", [
-        [ "Menu Navigation", "d0/d30/md_README.html#autotoc_md3", null ],
-        [ "Game Controls", "d0/d30/md_README.html#autotoc_md4", null ]
+    [ "README", "d0/d30/md_README.html", [
+      [ "Arcade Project by Onestla & Le Pacman, Le Snake Et Le Centipède", "d0/d30/md_README.html#autotoc_md0", [
+        [ "Team Members", "d0/d30/md_README.html#autotoc_md1", null ],
+        [ "How to Play", "d0/d30/md_README.html#autotoc_md2", [
+          [ "Menu Navigation", "d0/d30/md_README.html#autotoc_md3", null ],
+          [ "Game Controls", "d0/d30/md_README.html#autotoc_md4", null ]
+        ] ],
+        [ "Getting Started", "d0/d30/md_README.html#autotoc_md5", [
+          [ "Prerequisites", "d0/d30/md_README.html#autotoc_md6", null ],
+          [ "Compilation and Execution", "d0/d30/md_README.html#autotoc_md7", null ],
+          [ "Documentation and UML", "d0/d30/md_README.html#autotoc_md8", null ]
+        ] ],
+        [ "Enjoy and Have Fun!", "d0/d30/md_README.html#autotoc_md9", null ]
       ] ],
-      [ "Getting Started", "d0/d30/md_README.html#autotoc_md5", [
-        [ "Prerequisites", "d0/d30/md_README.html#autotoc_md6", null ],
-        [ "Compilation and Execution", "d0/d30/md_README.html#autotoc_md7", null ],
-        [ "Documentation and UML", "d0/d30/md_README.html#autotoc_md8", null ]
-      ] ],
-      [ "Enjoy and Have Fun!", "d0/d30/md_README.html#autotoc_md9", null ],
       [ "Graphics Library Implementation Guide", "d0/d30/md_README.html#autotoc_md10", [
         [ "Overview", "d0/d30/md_README.html#autotoc_md11", [
           [ "1. Window State Check", "d0/d30/md_README.html#autotoc_md12", null ],
@@ -89,8 +91,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"da/d03/AGame_8hpp.html",
-"dir_b6c019080825f37b0b9b7b4fb28f0919.html"
+"d9/d7d/Ghost_8cpp_source.html",
+"dir_b61163fcfc1c7557713cfec58882c9a3.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

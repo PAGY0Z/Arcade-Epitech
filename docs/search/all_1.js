@@ -20,6 +20,5 @@ var searchData=
   ['apple_28',['Apple',['../dc/d40/classarcade_1_1Apple_aa52d2a1300530d329ada4ee54f8789a8.html#aa52d2a1300530d329ada4ee54f8789a8',1,'arcade::Apple::Apple()'],['../dc/d40/classarcade_1_1Apple.html',1,'arcade::Apple']]],
   ['apple_2ecpp_29',['Apple.cpp',['../dd/dd3/Apple_8cpp.html',1,'']]],
   ['apple_2ehpp_30',['Apple.hpp',['../de/d9f/Apple_8hpp.html',1,'']]],
-  ['arcade_31',['arcade',['../db/d1a/namespacearcade.html',1,'']]],
-  ['arcade_20project_20by_20onestla_20_26_20le_20pacman_2c_20le_20snake_20et_20le_20centipède_32',['Arcade Project by Onestla &amp; Le Pacman, Le Snake Et Le Centipède',['../d0/d30/md_README.html',1,'']]]
+  ['arcade_31',['arcade',['../db/d1a/namespacearcade.html',1,'']]]
 ];
